@@ -18,6 +18,10 @@ inputs:
     description: Mapped host Ogmios port
     required: false
     default: '1337'
+  timeout:
+    description: How many seconds to wait before stoping sync operation. GitHub actions has a hard limit of 6 hours.
+    required: false
+    default: 18000
   repository:
     description: Docker repository
     required: false
@@ -44,7 +48,7 @@ runs:
       run: |
         docker run -d --name ${{ inputs.container-name }} -p ${{ inputs.ogmios-port }}:1337 -v ${{ inputs.db-dir }}:/db ${{ steps.docker-image.outputs.value }}
         sleep 120s
-        ./scripts/wait-for-sync.sh ${{ inputs.ogmios-port }} 1 600
+        ./scripts/wait-for-sync.sh ${{ inputs.ogmios-port }} 1 ${{ inputs.timeout }}}
       shell: bash
 
     - name: 🧹 Cleanup
