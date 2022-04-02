@@ -43,8 +43,8 @@ runs:
     - name: ⟲ Sync
       run: |
         docker run -d --name ${{ inputs.container-name }} -p ${{ inputs.ogmios-port }}:1337 -v ${{ inputs.db-dir }}:/db ${{ steps.docker-image.outputs.value }}
-        sleep 3
-        ./scripts/wait-for-sync.sh ${{ inputs.ogmios-port }} 1
+        sleep 120s
+        ./scripts/wait-for-sync.sh ${{ inputs.ogmios-port }} 1 600
       shell: bash
 
     - name: 🧹 Cleanup
